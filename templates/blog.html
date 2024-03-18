@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    
+{% if blog %}
+<div class="blog-container" style="max-width: 80%; margin: 20px auto; border: 1px solid #ccc; padding: 20px;">
+    <!-- Blog title as a link -->
+    <h2 style="text-align: center; text-decoration: none; color: #333; font-size: 24px; margin-bottom: 10px;">
+        <a href="" style="text-decoration: none; color: rgb(32, 13, 13)">{{ blog['title'] }}</a>
+    </h2>
+    
+    <img src="{{ blog['image_url'] | safe }}" alt="{{ blog['title'] }}" style="max-width: 100%; height: 400px; display: block; margin: 0 auto; padding: 10px 0;">
+    <p style="font-style: italic; color: #666; margin-bottom: 5px;">Category: {{ blog['category_name'] }}</p>
+    <!-- Content preview -->
+    <p style="font-size: 16px; line-height: 1.5;">{{ blog['content'] | safe}}...</p>
+    <p style="font-style: italic; color: #666; margin-bottom: 5px;">Author: {{ blog['author'] }}</p>
+
+     <!-- Share Button -->
+     <a href="" class="share-btn" data-url="/blog?blog_id={{ blog['_id'] }}" data-title="{{ blog['title'] }}">Share</a>
+</div>
+{% endif %}
+<script>
+    document.querySelector('.share-btn').addEventListener('click', event => {
+        const url = event.currentTarget.getAttribute('data-url');
+        const title = event.currentTarget.getAttribute('data-title');
+      
+        if (navigator.share) {
+          navigator.share({ title: title, url: url })
+            .then(() => console.log('Shared successfully'))
+            .catch((error) => console.error('Error sharing:', error));
+        } else {
+          console.error('Sharing not supported');
+        }
+      });      
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+
+<style>
+    .form-container {
+        /* Add padding to create space around the input fields */
+        padding: 10px;
+    }
+    .error-message {
+        font-weight: 600; /* Adjust font weight as needed */
+        font-size: 12px; /* Adjust font size as needed */
+    }
+    
+    input[type="text"] {
+        /* Adjust the width of the input fields as needed */
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 0px; /* Add margin for spacing between input fields */
+    }
+    
+    .submit-button {
+        /* Make the button width the same as the input fields */
+        width: 25%;
+        padding: 5px;
+        background-color: #697480; /* Example background color */
+        color: black; /* Example text color */
+        border: none;
+        cursor: pointer;
+    }
+    .submit-button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+        /*margin-right: -200px;*/
+    }
+ 
+   
+    @media (min-width: 1000px) {
+        .custom-margin-top {
+            margin-top: -130px;
+        }
+            .image-container {
+            
+                width: 150px; /* Adjust as needed */
+                height: 150px; /* Adjust as needed */
+                overflow: hidden;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .image-container img {
+                width: 100%;
+                height: auto;
+                border-radius: 50%;
+            }
+    }
+    /* Media query for small screens */
+@media (max-width: 1000px) {
+    .image-container {
+        width: 50px; /* Adjust for smaller screens */
+        height: 50px; /* Adjust for smaller screens */
+    }
+    .image-container {
+            
+        width: 150px; /* Adjust as needed */
+        height: 150px; /* Adjust as needed */
+        overflow: hidden;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+    .custom-margin-top {
+        margin-top: -20px;
+        margin-bottom: 140px;
+    }
+}
+    
+    
+
+</style>
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+
+<br/>
+<div class="row">
+    <div class="col-md-12 d-flex justify-content-end align-items-center shared-border">
+        <div class="image-container">
+            {% if current_user['profile_image'] %}
+            <img src="{{ current_user['profile_image'] }}" alt="Profile Image" class="img-fluid rounded-circle">
+        {% else %}
+            <img src="/static/images/profile.jpeg" alt="Profile Image" class="img-fluid rounded-circle">
+        {% endif %}
+            
+        </div>
+    </div>
+</div>
+
+    
+<div class="row">   
+    <!-- Form Column -->
+    <div class="col-md-12 d-flex justify-content-center align-items-center shared-border  custom-margin-top" >
+        <form method="POST" class="form-container" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <!-- Email -->
+            <div class="form-group" style="margin-top: 8px;">
+                {% if request.method == 'GET' %}
+                    {{ form.email.label('Email', class="form-label") }}
+                {% endif %}
+                {{ form.email(class="form-control", placeholder="Email") }}
+                {% for error in form.email.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- First Name -->
+            <div class="form-group" style="margin-top: 8px;">
+                {% if request.method == 'GET' %}
+                    {{ form.first_name.label('First Name', class="form-label") }}
+                {% endif %}
+                {{ form.first_name(class="form-control", placeholder="First Name") }}
+                {% for error in form.first_name.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group" style="margin-top: 8px;">
+                {% if request.method == 'GET' %}
+                    {{ form.last_name.label('Last Name', class="form-label") }}
+                {% endif %}
+                {{ form.last_name(class="form-control", placeholder="Last Name") }}
+                {% for error in form.last_name.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group" style="margin-top: 8px;">
+                {% if request.method == 'GET' %}
+                    {{ form.password.label('Password', class="form-label") }}
+                {% endif %}
+                {{ form.password(class="form-control", placeholder="********") }}
+                {% if form.password.errors %}
+                    <span class="text-danger error-message">{{ form.password.errors[-1] }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group" style="margin-top: 8px;">
+                {% if request.method == 'GET' %}
+                    {{ form.confirm_password.label('Confirm Password', class="form-label") }}
+                {% endif %}
+                {{ form.confirm_password(class="form-control", placeholder="********") }}
+                {% for error in form.confirm_password.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <!-- Profile Image Upload -->
+            <div class="form-group" style="margin-top: 8px;">
+                {{ form.profile_image.label(class="form-label") }}
+                {{ form.profile_image(class="form-control-file", id="profile_image") }}
+                {% for error in form.profile_image.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <!-- Submit Button -->
+            <div class="form-group submit-button-container">
+                {{ form.submit(label="Update", class="btn submit-button", style="background-color: #8A2BE2") }}
+            </div>
+        </form>
+    </div>
+            <!-- Profile Image Column -->
+           
+</div>
+<br/>
+<br/>
+
+
+
+{% endblock %}

@@ -1,0 +1,4 @@
+__pycache__
+.env
+myblog
+client-secret.json

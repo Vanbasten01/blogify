@@ -1,0 +1,102 @@
+
+
+
+
+
+{% extends 'base2.html' %}
+{% block content %}
+
+        <style>
+
+          
+
+            /* Set border color for all form controls */
+            .form-control {
+                border-color: lightgrey;
+            }
+         
+            /* Ensure file input field border is visible */
+            .form-control-file {
+                border: 1px  solid lightgrey;
+                border-radius: 5px;
+            }
+            
+            .btn-submit {
+               
+                width: 100px;
+                color: white;
+                margin: 0 auto;
+                padding: 5px;
+                background-color: #8A2BE2 ;
+                border: 1px solid lightgrey; 
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            #image {
+                width: 100%; /* Set the width to 100% */
+                box-sizing: border-box; /* Include padding and border in the element's total width */
+                margin: 0; /* Remove any default margin */
+            }
+           
+            
+        </style>
+
+  </head>
+  <body>
+
+   
+
+    <div class="container" >
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="row mt-4" >
+                <div class="col-md-11">
+                    <h6 style="font-weight: bold;"><span style="color: #8A2BE2; font-weight: bold">Author:&ensp;</span> {{ current_user['first_name'] }} {{ current_user['last_name'] }}</h6>
+                </div>
+                <div class="col-md-1 text-md-right">
+                    <div > <!-- Adjust the margin-top as needed -->
+                        {{ form.submit(class="btn-submit") }}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        {{ form.title(class="form-control", id="title") }}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-top: 10px">
+                        <label for="image">Image</label>
+                        {{ form.image(class="form-control-file", id="image") }}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-top: 10px">
+                        <label for="Categories">Categories</label>
+                        {{ form.category(class="form-control", id="category") }}
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-top: 10px; ">
+                        <label for="content">Content</label>
+                        {{ form.content(class="form-control", id="content") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='content') }}
+    </div>
+    
+<br/>
+{% endblock %}

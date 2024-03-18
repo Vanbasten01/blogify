@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<style>
+    .form-container {
+        /* Add padding to create space around the input fields */
+        padding: 50px;
+    }
+    .error-message {
+        font-weight: 600; /* Adjust font weight as needed */
+        font-size: 12px; /* Adjust font size as needed */
+    }
+    
+    input[type="text"] {
+        /* Adjust the width of the input fields as needed */
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 0px; /* Add margin for spacing between input fields */
+    }
+    
+    .submit-button {
+        /* Make the button width the same as the input fields */
+        width: 100%;
+        padding: 5px;
+        background-color: #697480; /* Example background color */
+        color: black; /* Example text color */
+        border: none;
+        cursor: pointer;
+    }
+
+</style>
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+
+<br/>
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-center align-items-center shared-border">
+        <img src="/static/images/3-purple-sign-up.jpg" alt="Description of your image" class="img-fluid">
+    </div>
+
+    <div class="col-md-6 d-flex justify-content-center align-items-center shared-border" style="margin-bottom: 6px">
+        <form  method="POST" class="form-container">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", placeholder="Email") }}
+                {% for error in form.email.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.first_name.label(class="form-label") }}
+                {{ form.first_name(class="form-control", placeholder="First Name") }}
+                {% for error in form.first_name.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.label(class="form-label") }}
+                {{ form.last_name(class="form-control", placeholder="Last Name") }}
+                {% for error in form.last_name.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", placeholder="Password") }}
+                {% if form.password.errors %}
+                    <span class="text-danger error-message">{{ form.password.errors[-1] }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password(class="form-control", placeholder="Confirm Password") }}
+                {% for error in form.confirm_password.errors %}
+                    <span class="text-danger error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group" style="margin-top: 15px;">
+                {{ form.submit(class="btn submit-button", style="background-color: #8A2BE2") }}
+            </div>
+        </form>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+{% endblock %}

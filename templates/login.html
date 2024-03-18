@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Add the Google Sign-In library -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Define your custom styles -->
+    <style>
+        /* Customize your button styles here */
+        .google-login-button {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .google-login-button img {
+            width: 20px;
+            margin-right: 10px;
+        }
+        .shared-border {
+            border-right: 1px solid #ccc; /* Adjust border color and width as needed */
+        }
+
+        #main-container {
+            margin-top: 100px;
+        }
+        .form-container {
+            /* Add padding to create space around the input fields */
+            padding: 10px;
+        }
+        
+        input[type="text"] {
+            /* Adjust the width of the input fields as needed */
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px; /* Add margin for spacing between input fields */
+        }
+        
+        .submit-button {
+            /* Make the button width the same as the input fields */
+            width: 100%;
+            padding: 8px;
+            background-color: #8A2BE2;
+             /* Example background color */
+            color: black; /* Example text color */
+            border: none;
+            cursor: pointer;
+        }
+        .btn-black:hover {
+            background-color: #000000; /* Black color */
+            color: #ffffff; /* White text */
+          }
+
+
+    </style>
+
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+         {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+
+    <div class="container" id="main-container" >    
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-center align-items-center shared-border">
+                <form action="" method="POST" class="form-container">
+                    {{ form.hidden_tag() }}
+            
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", placeholder="Enter your email") }}
+                        {% for error in form.email.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                
+            
+                    <div class="form-group">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", placeholder="Enter your password") }}
+                        {% for error in form.password.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        {{ form.submit(class="btn btn-black submit-button") }}
+                        <div class="text-center mt-3 " style="color: black">
+                            <a href="/signup" style="color: black">Sign up</a>
+                        </div>
+                    </div>
+                </form>
+               
+            </div>
+            
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div>
+                    <div class="container">
+                        <div class="row">  
+                            <div class="col-md-12 d-flex justify-content-center align-items-center">  
+                            <!-- Place the Google Sign-In button inside your HTML -->
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                    <!-- You can also add your custom button -->
+                                    <button class="google-login-button "  style="background-color: #8A2BE2;" onclick="redirectToGoogle()">
+                                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
+                                    Login with Google
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row"> 
+                            <div class="col-md-12 d-flex justify-content-center align-items-center">
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                    <!-- You can also add your custom button -->
+                                    <button class="google-login-button " style="background-color: #8A2BE2;" onclick="redirectToGithub()"  onclick="onCustomSignIn()">
+                                    <img src="../static/images/github-mark-white.png" alt="Github Logo">
+                                    Login with Github
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      
+    
+
+    <!-- Your custom JavaScript -->
+    <script>
+        function redirectToGoogle() {
+                // Perform the redirection to /googleLogin route
+                window.location.href = "/googleLogin";
+        }
+        function redirectToGithub() {
+            window.location.href = "/githubLogin"
+        }
+    </script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+
+{% endblock %}

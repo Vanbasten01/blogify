@@ -1,0 +1,94 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Blogify API",
+    "description": "API documentation for the Blogify application",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/signup": {
+      "post": {
+        "summary": "User Registration",
+        "description": "Registers a new user with the provided information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+                    "description": "Email address in standard format"
+                  },
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$",
+                    "description": "Password must contain at least one uppercase letter, one lowercase letter, and one number. It may include the following special characters: @$!%*?&."
+                  },
+                  "confirm_password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "first_name", "last_name", "password", "confirm_password"]
+              }
+            }
+          },
+        "responses": {
+          "201": {
+            "description": "User registered successfully."
+          },
+          "400": {
+            "description": "Bad request. Details in the response body."
+          }
+        }
+      }
+    }
+  },
+  "/api/login": {
+    "post": {
+      "summary": "User Login",
+      "description": "Logs in a user with the provided credentials.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "description": "User's email address"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "User's password"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "User logged in successfully."
+        },
+        "401": {
+          "description": "Unauthorized. Invalid credentials."
+        }
+      }
+    }
+  }
+  }
+}
+
+
