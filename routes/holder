@@ -1,34 +1,29 @@
 from routes import bp
-from flask import render_template, request, flash, jsonify
+from flask import render_template, request, flash
 from bson.objectid import ObjectId
 from routes.dashboard import token_required
 from forms.commentForm import CommentForm
 from uuid import uuid4
-from datetime import datetime
 
 
-
+"""
 @bp.route('/blog_', methods=['GET', 'POST'], strict_slashes=False)
 @token_required
 def Blog(current_user):
     form = CommentForm()
     blog_id = request.args.get("blog_id")
     user_id = request.args.get("user_id")
-    print(f"welcome to the blog_ 6666666")
     if request.method == 'POST' and form.validate_on_submit():
         try:
             from mongo0 import blogs
-            print(f"welcome to the blog_ 99999999")
+           
             blog = blogs.find_one({'_id': ObjectId(blog_id)})
             if 'comments' not in blog:
                 blogs.update_one({'_id': blog_id}, {'$set': {'comments': []}})
             comment = form.comment.data
-            # Get the current date and time
-            current_time = datetime.now()
-            current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
             print(f"here we go comment i just added {comment}")
             comment_id = ObjectId()
-            blogs.update_one({'_id': ObjectId(blog_id)}, {'$push': {'comments': {'comment_id': comment_id, 'user_id': ObjectId(user_id), 'likes': [], 'comment': comment, 'time': current_time }}})
+            blogs.update_one({'_id': ObjectId(blog_id)}, {'$push': {'comments': {'comment_id': comment_id, 'user_id': ObjectId(user_id), 'likes': [], 'comment': comment }}})
             flash('Your comment has been added.', 'success')
         except Exception as e:
             flash(f'An error occurred: {str(e)}', 'danger')
@@ -50,8 +45,7 @@ def Blog(current_user):
             'user_name': '$comment_user.first_name',  
             'user_id': '$comments.user_id',
             'comment_id': '$comments.comment_id',
-            'likes': '$comments.likes',
-            'time': '$comments.time'
+            'likes': '$comments.likes'
         }}
     ])
 
@@ -69,3 +63,4 @@ def Blog(current_user):
 
     return render_template('blog.html', blog=blog, current_user=current_user, form=form, comments=comments)
 
+"""

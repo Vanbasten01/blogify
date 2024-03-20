@@ -14,6 +14,10 @@ from routes.deleteBlog import delete_blog
 from routes.editBlog import edit_Blog
 from routes.category import category
 from routes.blog import Blog
+from routes.deleteComment import deleteComment
+from routes.likeComments import like_comment
+from routes.blogLikes import bloglikes
+from routes.getUpdatedLikeButton import get_updated_like_button
 
 
 

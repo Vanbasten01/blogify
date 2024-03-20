@@ -39,35 +39,17 @@
     <p style="font-style: italic; color: #666; margin-bottom: 5px;">Author: {{ blog['author'] }}</p>
 
     <div>
-          {% if current_user %}
-          <!-- Like Button for Logged-in User -->
-          <a href="javascript:void(0)" class="btn btn-outline flex-fill mt-auto like-btn" onclick="likeblog('{{ blog._id }}', '{{ current_user._id }}')" style="background-color: #8A2BE2; color: white; margin-left: 5px; margin-right: 5px; width: 30%">
-              <!-- SVG Icon for Like -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                  <path d="M8 14s-6-3.5-6-7a4 4 0 0 1 6-3.464A4 4 0 0 1 14 7c0 3.5-6 7-6 7z"/>
-              </svg>
-              Like
-              <span>
-                  ({{ blog.likes|length }})
-              </span>
-          </a>
-      {% else %}
-          <!-- Like Button for Non-Logged-in User (Redirect to Login) -->
-          <a href="{{ url_for('all_routes.login') }}" class="btn btn-outline flex-fill mt-auto like-btn" style="background-color: #8A2BE2; color: white; margin-left: 5px; margin-right: 5px; width: 30%">
-              <!-- SVG Icon for Like -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                  <path d="M8 14s-6-3.5-6-7a4 4 0 0 1 6-3.464A4 4 0 0 1 14 7c0 3.5-6 7-6 7z"/>
-              </svg>
-              Like
-              <span>
-                  ({{ blog.likes|length }})
-              </span>
-          </a>
-      {% endif %}
-      
+      <!-- Like Button -->
+      <a href="#" class="btn btn-outline flex-fill mt-auto like-btn" style="background-color: #8A2BE2; color: white; margin-left: 5px; margin-right: 5px; width: 30%">
+          <!-- SVG Icon for Like -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+              <path d="M8 14s-6-3.5-6-7a4 4 0 0 1 6-3.464A4 4 0 0 1 14 7c0 3.5-6 7-6 7z"/>
+          </svg>
+          Like
+      </a>
   
       <!-- Comment Button -->
-      <a href="#" class="comment-btn btn btn-outline flex-fill mt-auto " data-toggle="modal" data-target="#commentModal" style="background-color: #8A2BE2; color: white;margin-right: 5px; width: 30%">
+      <a href="#" class="btn btn-outline flex-fill mt-auto comment-btn" data-toggle="modal" data-target="#commentModal" style="background-color: #8A2BE2; color: white;margin-right: 5px; width: 30%">
           <!-- SVG Icon for Comment -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
               <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9.414l-2.293 2.293A1 1 0 0 1 6 14V12H2V1zm1 1v9h2v2.586L7.586 12H13V2H3z"/>
@@ -107,10 +89,8 @@
                       {% for comment in comments %}
                           <li class="list-group-item">
                             <!-- Modify this line in your template -->
-                            <span style="color: #8A2BE2; font-weight: bolder">{% for name in comment.user_name %}{{ name }}{% endfor %}:&nbsp;&nbsp;</span>
-                            <span style="margin-right: 20px;">{{ comment.comment }}</span><span style="margin-right: 20px;"> {{ comment.time }}</span>
-
-                            
+                            <span style="color: #8A2BE2; font-weight: bolder">{% for name in comment.user_name %}{{ name }}{% endfor %}:</span>
+                              <span>{{ comment.comment }}</span>
 
                             <!-- Like button -->
                             <!-- Like button -->
@@ -119,17 +99,15 @@
                                 <input type="hidden" name="comment_id" value="{{ comment.comment_id }}">
                                 <!-- Display different buttons based on whether the user has already liked the comment -->
                               {% if current_user['_id'] in comment.likes %}
-                                  <button type="submit" name="action" value="unlike" class="btn btn-sm btn-primary" style="margin-right: 20px;">
+                                  <button type="submit" name="action" value="unlike" class="btn btn-sm btn-primary">
                                       <i class="far fa-thumbs-up"></i>
                                       Liked ({{ comment.likes|length }})
                                   </button>
                               {% else %}
-                                  <button type="submit" name="action" value="like" class="btn btn-sm btn-outline-primary" style="margin-right: 20px;">
+                                  <button type="submit" name="action" value="like" class="btn btn-sm btn-outline-primary">
                                       <i class="far fa-thumbs-up"></i>
                                       Like ({{ comment.likes|length }})
                                   </button>
-                                 
-                                  
                               {% endif %}
                             </form>
                             {% endif %}
@@ -143,9 +121,7 @@
                                   <input type="hidden" name="comment_id" value="{{ comment.comment_id }}">
                                   <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                               </form>
-                             
                               {% endif %}
-                             
                               
 
 
@@ -157,17 +133,17 @@
               {% endif %}
           </div>
           <div class="modal-footer">
+            <!-- Add Comment Form (if user is logged in) -->
             {% if current_user %}
-                <form id="commentForm" onsubmit="submitCommentForm('{{ current_user._id }}', '{{ blog._id }}'); return false;" style="width: 100%">
+                <form method="post" style="width: 100%">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         {{ form.comment.label }}
-                        <textarea class="form-control comment-textarea" id="comment" name="comment" rows="5">{{ form.comment.data or '' }}</textarea>
-                        {% if form.comment.errors %}
+                        <textarea class="form-control comment-textarea" id="comment" name="comment" rows="5">{{ form.comment.data or '' }}</textarea>                          {% if form.comment.errors %}
                             <span class="text-danger">{{ form.comment.errors[0] }}</span>
                         {% endif %}
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    {{ form.submit(class="btn btn-primary") }}
                 </form>
             {% else %}
                 <p>You must be logged in to add a comment. <a href="/login">Login</a></p>
@@ -202,68 +178,31 @@
         }
       });      
 </script>
-
-
+<!-- JavaScript code to handle button clicks -->
 <script>
   $(document).ready(function() {
-    // Variable to store the current page URL
-    let currentPageUrl;
-
-    // Add event listener for the Comment button
-    $('.comment-btn').click(function() {
-        // Store the current page URL
+      // Add event listener for the Comment button
+      $('.comment-btn').click(function() {
         currentPageUrl = window.location.href;
-        console.log(`this is from here ${currentPageUrl}`);
-        // Show the comment modal
-        $('#commentModal').modal('show');
-    });
-
-    // Add event listener for modal close event
-    $('#commentModal').on('hidden.bs.modal', function (e) {
-      // Delay the redirect by a short interval to ensure modal is fully hidden
-      $('#commentModal').modal('hide');
-          // Redirect back to the previous page
-           // Reload the entire page
-           //window.location.reload();
+          // Show the comment modal
+          $('#commentModal').modal('show');
       });
-});
 
+      // Handle comment form submission
+      $('#commentForm').submit(function(event) {
+          // Prevent default form submission
+          event.preventDefault();
+          // TODO: Handle comment form submission (e.g., send data to server via AJAX)
+          // Hide the comment modal
+          $('#commentModal').modal('hide');
+      });
+      // Add event listener for modal close event
+    $('#commentModal').on('hidden.bs.modal', function (e) {
+      // Redirect back to the previous page
+      window.location.href = currentPageUrl;
+  });
+  });
 </script>
-<!-- JavaScript code to like  button clicks for blogs  -->
-<script>
-  function likeblog(blogId, userId) {
-    // Send a POST request to the server to handle the like action
-    fetch('/blogLikes?blog_id=' + blogId + '&user_id=' + userId, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(response => {
-      // Check if the request was successful
-      if (response.ok) {
-        // Fetch the updated like button HTML string from the server
-        fetch('/getUpdatedLikeButton?blog_id=' + blogId  + '&user_id=' + userId)
-          .then(response => response.text())
-          .then(data => {
-            // Replace the existing like button with the updated like button HTML
-            const likeButton = document.querySelector('.like-btn');
-            likeButton.outerHTML = data;
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      } else {
-        console.error('Failed to like blog');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-</script>
-
-
 <script>
 // Function to handle the like button click
 function likeComment(blogId, userId, commentId) {
@@ -340,49 +279,7 @@ function deleteComment(blogId, userId, commentId) {
 
 </script>
 
-{% if current_user %}
 
-<!-- JavaScript -->
-
-  <script>
-    // Function to handle the comment form submission
-    function submitCommentForm(userId, blogId) {
-        // Check if the modal is open
-        const modalOpen = $('#commentModal').hasClass('show');
-
-        // Construct the URL with the user ID and blog ID
-        const url = '/blog_?user_id=' + userId + '&blog_id=' + blogId;
-
-        // Submit the form using AJAX
-        const formData = new FormData(document.getElementById('commentForm'));
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            // Check if the request was successful
-            if (response.ok) {
-                // Reload the content of the modal
-                $('#commentModal .modal-content').load(window.location.href + ' #commentModal .modal-content', function() {
-                    // Restore the modal state
-                    if (modalOpen) {
-                        $('#commentModal').modal('show');
-                    }
-                });
-                // Optionally, clear the comment textarea
-                document.getElementById('comment').value = '';
-                console.log('Comment submitted successfully');
-            } else {
-                console.error('Failed to submit comment');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-</script>
-
-{% endif %}
 
 
 
