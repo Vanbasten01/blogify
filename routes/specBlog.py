@@ -3,6 +3,7 @@ from flask import render_template, request
 from bson.objectid import ObjectId
 from routes.dashboard import token_required
 from forms.commentForm import CommentForm
+import json
 
 
 
@@ -12,10 +13,21 @@ from forms.commentForm import CommentForm
 def blog():
     form = CommentForm()
     blog_id = request.args.get("blog_id")
-    from mongo0 import blogs, users
-    blog_id = ObjectId(blog_id)
-    blog = blogs.find_one({'_id': blog_id})
+    blog = None
     from mongo0 import db
+    #blog_id = ObjectId(blog_id)
+    from redis0 import redis_client
+    all_blogs_json = redis_client.get('all_blogs')
+    if all_blogs_json:
+        all_blogs = json.loads(all_blogs_json)
+        for blog in all_blogs:
+            if blog['_id'] == blog_id:
+                 blog = blog
+                 print(f"this is fromm rediiiiiiiiiiiiiiiiis")
+            else:
+                 blog = db.blogs.find_one({'_id': ObjectId(blog_id)})
+
+   
     # Retrieve comments with user information
     comments_with_users = db.blogs.aggregate([
         {'$match': {'_id': ObjectId(blog_id)}},
@@ -42,4 +54,4 @@ def blog():
        comments.append(c)
     comments_len = len(comments)
 
-    return render_template('blog.html', blog=blog, form=form, comments=comments, length=comments_len) #current_user=current_user)
+    return render_template('blog.html', blog=blog, form=form, comments=comments)

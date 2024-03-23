@@ -5,6 +5,8 @@ from bson.objectid import ObjectId
 from routes.dashboard import token_required
 from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
+import json
 
 
 
@@ -24,10 +26,12 @@ def addPost(current_user):
        image_path = None
        if image_file:
           image_filename = secure_filename(image_file.filename)
+          print(f"this is add   {image_filename}")
           image_path = os.path.join(current_app.root_path, 'static', 'images', image_filename)
+          print(f"this is add   {image_path}")
           image_file.save(image_path)
-       user_id = current_user['_id']
-       image_url = '/static/images' + image_filename if image_file  else ""       
+          image_url = '/static/images/' + image_filename
+       user_id = current_user['_id']      
        from mongo0 import blogs, categories
 
         # Check if the category already exists
@@ -38,6 +42,8 @@ def addPost(current_user):
             # Generate a unique identifier for the category
             category_id = ObjectId()
             categories.insert_one({"_id": category_id, "category_name": category, "blogs": []})
+       current_time = datetime.now()
+       current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
        blog_data = {
           "title": title,
@@ -46,7 +52,8 @@ def addPost(current_user):
           "category_name": category,
           "image_url": image_url,
           "user_id": user_id,
-          "author": current_user['first_name'] + " " + current_user["last_name"] if current_user["last_name"] else ""
+          "author": current_user['first_name'] + " " + current_user["last_name"] if current_user["last_name"] else "",
+          "time": current_time
        }
 
        insert_result = blogs.insert_one(blog_data)
@@ -55,19 +62,17 @@ def addPost(current_user):
        categories.update_one({"_id": category_id}, {"$push": {"blogs": inserted_id}})
 
 
+       from redis0 import redis_client
+
       
-       
+
+       all_blogs = list(blogs.find())
+       from helpers import CustomJSONEncoder
+       redis_client.set('all_blogs', json.dumps(all_blogs, cls=CustomJSONEncoder))    
        
        flash('Blog Added successfully', 'success')
        return redirect(url_for('all_routes.dashboard', user_id=current_user['_id']) )
 
 
        
-       
-   
-    from mongo0 import users
-    #current_user = users.find_one({"_id": ObjectId(user_id)})
-
-    if request.method == 'POST':
-      pass
     return render_template('addPost.html', current_user=current_user, form=form)

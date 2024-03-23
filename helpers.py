@@ -20,3 +20,15 @@ def get_user_info_from_github(access_token):
         # If the request was not successful, print an error message
         print(f"Failed to retrieve user information from GitHub API: {response.status_code}")
         return None
+    
+
+
+import json
+from bson import ObjectId
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+

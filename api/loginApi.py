@@ -6,6 +6,7 @@ import bcrypt
 from os import getenv
 import jwt
 from bson.objectid import ObjectId
+from datetime import timedelta
 
 
 
@@ -21,6 +22,8 @@ def login():
         if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             # Generate JWT token
             token = jwt.encode({'email': email}, getenv('FLASK_SECRET'), algorithm='HS256')
+            from redis0 import redis_client
+            redis_client.setex(email, timedelta(hours=6), token)
             
             # Set token in the response headers
             headers = {"Authorization": f"Bearer {token}"}

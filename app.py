@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-
+import cloudinary
 from dotenv import load_dotenv
 from os import getenv
 import uuid
@@ -11,6 +11,9 @@ from flask_ckeditor import CKEditor
 
 
 
+
+
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -18,6 +21,13 @@ app = Flask(__name__)
 #intiantiate a ckeditor instance
 ckeditor = CKEditor(app)
 
+
+          
+cloudinary.config( 
+  cloud_name = getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key = getenv("CLOUDINARY_API_KEY"), 
+  api_secret = getenv("CLOUDINARY_API_SECRET")
+)
 
 ### swagger specific ###
 SWAGGER_URL = '/api/'

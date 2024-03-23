@@ -34,7 +34,16 @@
         margin-top: 8px;
         /*margin-right: -200px;*/
     }
- 
+    .delete-button {
+        /* Make the button width the same as the input fields */
+        width: 25%;
+        padding: 5px;
+        background-color: #697480; /* Example background color */
+        color: black; /* Example text color */
+        border: none;
+        cursor: pointer;
+    }
+  
    
     @media (min-width: 1000px) {
         .custom-margin-top {
@@ -49,6 +58,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                margin: 20px;
             }
             .image-container img {
                 width: 100%;
@@ -96,7 +106,7 @@
 
 <br/>
 <div class="row">
-    <div class="col-md-12 d-flex justify-content-end align-items-center shared-border">
+    <div class="col-md-12 d-flex justify-content-start align-items-center shared-border" style="border: 1px solid #000;  border-bottom: none;">
         <div class="image-container">
             {% if current_user['profile_image'] %}
             <img src="{{ current_user['profile_image'] }}" alt="Profile Image" class="img-fluid rounded-circle">
@@ -111,7 +121,7 @@
     
 <div class="row">   
     <!-- Form Column -->
-    <div class="col-md-12 d-flex justify-content-center align-items-center shared-border  custom-margin-top" >
+    <div class="col-md-12 d-flex justify-content-center align-items-center shared-border  custom-margin-top" style="border: 1px solid #000; border-top: none" >
         <form method="POST" class="form-container" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 
@@ -178,9 +188,14 @@
                     <span class="text-danger error-message">{{ error }}</span>
                 {% endfor %}
             </div>
-            <!-- Submit Button -->
-            <div class="form-group submit-button-container">
-                {{ form.submit(label="Update", class="btn submit-button", style="background-color: #8A2BE2") }}
+            <div>
+                <!-- Submit Button -->
+                <div class="form-group submit-button-container">
+                    <button type="button" class="btn delete-button" onclick="deleteProfile('{{ current_user._id }}')" style="background-color: red; margin-right: 10px;">Delete</button>
+                    {{ form.submit(label="Update", class="btn submit-button", style="background-color: #8A2BE2") }}
+                   
+                </div>
+                
             </div>
         </form>
     </div>
@@ -189,6 +204,24 @@
 </div>
 <br/>
 <br/>
+<script>
+    function deleteProfile(userId) {
+        url = '/delete_profile?user_id=' + userId;
+        fetch(url, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                console.log('Account deleted successfully');
+                // Redirect to index page
+                window.location.href = "{{ url_for('all_routes.index') }}";
+            } else {
+                console.log("Account couldn't have been deleted successfully");
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 
 

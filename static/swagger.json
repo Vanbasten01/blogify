@@ -41,54 +41,194 @@
                 "required": ["email", "first_name", "last_name", "password", "confirm_password"]
               }
             }
-          },
+          }
+        },
         "responses": {
           "201": {
-            "description": "User registered successfully."
+            "description": "Account created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request. Details in the response body."
           }
         }
       }
-    }
-  },
-  "/api/login": {
-    "post": {
-      "summary": "User Login",
-      "description": "Logs in a user with the provided credentials.",
-      "requestBody": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "format": "email",
-                  "description": "User's email address"
+    },
+    "/api/login": {
+      "post": {
+        "summary": "User Login",
+        "description": "Logs in a user with the provided credentials.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "User's email address"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password"
+                  }
                 },
-                "password": {
-                  "type": "string",
-                  "description": "User's password"
-                }
-              },
-              "required": ["email", "password"]
+                "required": ["email", "password"]
+              }
             }
           }
-        }
-      },
-      "responses": {
-        "200": {
-          "description": "User logged in successfully."
         },
-        "401": {
-          "description": "Unauthorized. Invalid credentials."
+        "responses": {
+          "200": {
+            "description": "User logged in successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating successful login."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. Invalid credentials."
+          }
         }
+      }
+    },
+    "/api/blogs": {
+      "get": {
+        "summary": "Get Blogs",
+        "description": "Retrieve all blogs.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Blog"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. Token not provided or invalid."
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication token obtained upon successful login.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "your_token_here"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the blog."
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the blog."
+          },
+          "author": {
+            "type": "string",
+            "description": "The author of the blog."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category of the blog."
+          },
+          "image_url": {
+            "type": "string",
+            "description": "The URL of the image associated with the blog."
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "comment_id": {
+                  "type": "string",
+                  "description": "The unique identifier of the comment."
+                },
+                "user_id": {
+                  "type": "string",
+                  "description": "The unique identifier of the user who made the comment."
+                },
+                "comment": {
+                  "type": "string",
+                  "description": "The content of the comment."
+                },
+                "likes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "An array of user IDs who liked the comment."
+                },
+                "time": {
+                  "type": "string",
+                  "description": "The timestamp when the comment was made."
+                }
+              }
+            },
+            "description": "An array of comments associated with the blog."
+          },
+          "likes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of user IDs who liked the blog."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "TokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-token",
+        "description": "Provide the authentication token obtained upon successful login."
       }
     }
   }
-  }
 }
-
-

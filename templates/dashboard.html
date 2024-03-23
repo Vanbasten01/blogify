@@ -7,7 +7,7 @@
         overflow: hidden;
     }
     .card {
-        height: 450px;
+        height: 380px;
     }
 
     .card-body {
@@ -179,7 +179,7 @@
             {% endif %}
             
             <div class="col">
-                <div class="card">
+                <div class="card" style="margin-bottom: 20px">
                    
                     
                     <div class="card-body">
@@ -197,7 +197,7 @@
                         </div>
                         
                         <div>
-                            <a href="/blog_?blog_id={{ blog['_id'] }}&user_id={{ current_user['_id'] }}" class="btn btn-outline mt-auto" style="background-color: #8A2BE2; color: white;">Read More</a>
+                            <a href="/blog_?blog_id={{ blog['_id'] }}&user_id={{ current_user['_id'] }}" class="btn btn-outline mt-auto" style="background-color: #8A2BE2; color: white; margin-top: -20px !important">Read More</a>
                         </div>
                     </div>
                 </div>

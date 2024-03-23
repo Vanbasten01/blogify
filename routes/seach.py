@@ -12,7 +12,7 @@ def seach(current_user):
     from mongo0 import blogs
     all_blogs = list(blogs.find())
     for blog in all_blogs:
-        if keyword in blog['title'].lower() or keyword in blog['content'].lower():
+        if keyword.lower() in blog['title'].lower() or keyword in blog['content'].lower():
             blogs.append(blog)
     if blogs:
         return render_template('search.html', blogs=blogs, current_user=current_user)

@@ -5,6 +5,7 @@ from forms.addPostForm import AddPost
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 import os
+import json
 
 
 @bp.route('/edit/blog', methods=['GET', 'POST'], strict_slashes=False)
@@ -51,6 +52,9 @@ def edit_Blog(current_user):
 
         result = blogs.update_one({'_id': ObjectId(blog_id)}, {'$set': blog_data})
         if result.modified_count == 1:
+            from redis0 import redis_client
+            from helpers import CustomJSONEncoder
+            redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
             flash('Blog updated successfully', 'success')
         else:
             flash('Failed to update blog', 'error')

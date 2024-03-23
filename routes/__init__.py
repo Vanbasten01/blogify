@@ -18,6 +18,7 @@ from routes.deleteComment import deleteComment
 from routes.likeComments import like_comment
 from routes.blogLikes import bloglikes
 from routes.getUpdatedLikeButton import get_updated_like_button
+from routes.deleteProfile import delete_profile
 
 
 

@@ -6,6 +6,7 @@ from functools import wraps
 from flask import request, jsonify
 from os import getenv
 from forms.searchForm import Searchform
+import json
 
 
 @bp.before_request
@@ -16,8 +17,11 @@ def add_authorization_header():
         user_id = request.args.get('user_id')
         from mongo0 import db
         user = db.users.find_one({"_id": ObjectId(user_id)})
+        if not user:
+            return redirect(url_for('all_routes.login'))
         print(f"this is from before request jkjkjjjjjjjjjjjjjjj{user}")
         token = session.get(user['email'])
+      
         # Create a copy of the headers and modify the copy
         headers = dict(request.headers)
         headers['Authorization'] = f'Bearer {token}'
@@ -62,42 +66,20 @@ def token_required(f):
 @token_required
 def dashboard(current_user):
     form = Searchform()
+    from redis0 import redis_client
+    from mongo0 import blogs
     if current_user is None:
         # Handle case where current_user is None (user not authenticated)
         return redirect(url_for('all_routes.login'))
     if request.method == 'POST' and form.validate_on_submit():
         keyword = form.keyword.data.lower()
-        from mongo0 import blogs
-        all_blogs = list(blogs.find())
+        
+        all_blogs = json.loads(redis_client.get('all_blogs'))
         blogs = [blog for blog  in all_blogs if keyword in blog['title'].lower() or keyword in blog['content'].lower()]
         if not blogs:
             flash(f"No result Found for {keyword}", 'danger')
         return render_template('dashboard.html', current_user=current_user, blogs=all_blogs, searched_blogs=blogs, form=form)
 
-    from mongo0 import blogs
-    all_blogs = list(blogs.find())
-    return render_template('dashboard.html', current_user=current_user, blogs=all_blogs, form=form)
-
-
-
-
-"""
-@bp.route('/dashboard/<user_id>', strict_slashes=False)
-def dashboard(user_id): 
-
-    if session['access_token']:
-        if 'userinfo' in session['access_token']:
-            print(session['access_token'])
-            return render_template("dashboard.html", session=session.get('access_token'),
-                            pretty=json.dumps(session.get("access_token"), indent=4))
-        else:
-            userinfo = get_user_info_from_github(session.get('access_token')['access_token'])
-            if userinfo:
-                return render_template('dashboard.html', session=userinfo)
     
-
-    from mongo0 import db
-    user = db.users.find_one({"_id": ObjectId(user_id)})
-    print(user)
-
-    return render_template('dashboard.html', name=user["first_name"]) """
+    all_blogs = json.loads(redis_client.get('all_blogs'))
+    return render_template('dashboard.html', current_user=current_user, blogs=all_blogs, form=form)
