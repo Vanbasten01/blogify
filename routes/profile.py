@@ -7,6 +7,8 @@ from forms.editregistration import RegistrationFormU
 import bcrypt
 from werkzeug.utils import secure_filename
 import os
+import cloudinary.uploader
+
 
 @bp.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
 @token_required
@@ -39,17 +41,19 @@ def profile(current_user):
         # Extract the image file from the form
         image_file = request.files['profile_image']
         #image_file = form.profile_image.data
-        image_path = None
+      
         if image_file:
-            image_filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.root_path, 'static', 'images', image_filename)
-            image_file.save(image_path)
+            uploaded_image = cloudinary.uploader.upload(image_file)
+
+            # Get the URL of the uploaded image from Cloudinary
+            image_url = uploaded_image['secure_url']
+
             user_data = {
                 "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
                 "password": password,
-                "profile_image": "/static/images/" + image_filename
+                "profile_image": image_url
             }
         else:
             user_data = {
