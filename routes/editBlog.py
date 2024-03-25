@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 import os
 import json
+from cloudinary import uploader
 
 
 @bp.route('/edit/blog', methods=['GET', 'POST'], strict_slashes=False)
@@ -21,14 +22,14 @@ def edit_Blog(current_user):
         content = form.content.data
         image_file = form.image.data
         if image_file:
-            image_filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.root_path, 'static', 'images', image_filename)
-            image_file.save(image_path)
+            uploaded_image = uploader.upload(image_file)
+            image_url = uploaded_image['secure_url']
+            
             blog_data = {
             "title": title,
             "content": content,
             "category_name": category,
-            "image_url": "/static/images/" + image_filename,
+            "image_url": image_url,
             }
         else:
             blog_data = {

@@ -7,8 +7,7 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
 import json
-
-
+import cloudinary.uploader
 
 
 
@@ -23,14 +22,16 @@ def addPost(current_user):
        category = form.category.data
        # Extract the image file from the form
        image_file = form.image.data
-       image_path = None
        if image_file:
-          image_filename = secure_filename(image_file.filename)
-          print(f"this is add   {image_filename}")
-          image_path = os.path.join(current_app.root_path, 'static', 'images', image_filename)
-          print(f"this is add   {image_path}")
-          image_file.save(image_path)
-          image_url = '/static/images/' + image_filename
+          # Upload image to Cloudinary
+          uploaded_image = cloudinary.uploader.upload(image_file)
+
+          # Get the URL of the uploaded image from Cloudinary
+          image_url = uploaded_image['secure_url']
+
+       else:
+            # If no image is uploaded, set image_url to None
+            image_url = None
        user_id = current_user['_id']      
        from mongo0 import blogs, categories
 
@@ -53,7 +54,7 @@ def addPost(current_user):
           "image_url": image_url,
           "user_id": user_id,
           "author": current_user['first_name'] + " " + current_user["last_name"] if current_user["last_name"] else "",
-          "time": current_time
+          "date": current_time
        }
 
        insert_result = blogs.insert_one(blog_data)
