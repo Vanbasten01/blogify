@@ -44,12 +44,16 @@
     <div class="row row-cols-1 row-cols-md-3 g-3">
     {% endif %}
         <div class="col">
-            <div class="card">
-                <img src="{{ blog['image_url'] }}" class="card-img-top img-fluid" alt="{{ blog['title'] }}" style="width: 100%; height: 35%;">
+            <div class="card" style="margin-bottom: 25px">
+               
                 <div class="card-body">
                     <div class="card-title">
                         <h6 style="font-weight: bold">{{ blog['title'] }}</h6>
                     </div>
+                    {% if blog['image_url'] %}
+                    <img src="{{ blog['image_url'] }}" class="card-img-top img-fluid" alt="{{ blog['title'] }}" style="width: 100%; height: 35%;">
+                    {% endif %}
+                    
                     <div class="card-text">
                         <p>
                             {{ blog['content'][:140] | safe }}

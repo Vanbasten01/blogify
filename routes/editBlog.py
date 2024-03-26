@@ -9,6 +9,7 @@ import json
 from cloudinary import uploader
 
 
+
 @bp.route('/edit/blog', methods=['GET', 'POST'], strict_slashes=False)
 @token_required
 def edit_Blog(current_user):
@@ -24,13 +25,13 @@ def edit_Blog(current_user):
         if image_file:
             uploaded_image = uploader.upload(image_file)
             image_url = uploaded_image['secure_url']
-            
             blog_data = {
             "title": title,
             "content": content,
             "category_name": category,
             "image_url": image_url,
             }
+        
         else:
             blog_data = {
                 "title": title,

@@ -7,7 +7,7 @@ import json
 
 
 
-@bp.route('/blog', methods=['GET', 'POST'], strict_slashes=False)
+@bp.route('/blog', strict_slashes=False)
 #@token_required
 #def blog(current_user):
 def blog():

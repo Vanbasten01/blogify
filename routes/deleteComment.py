@@ -15,6 +15,10 @@ def deleteComment(current_user):
             try:
                 from mongo0 import blogs
                 blogs.update_one({'_id': ObjectId(blog_id)}, {'$pull': {'comments': {'comment_id': ObjectId(comment_id)}}})
+                from redis0 import redis_client
+                # Cache the result
+                from helpers import CustomJSONEncoder
+                redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
                 flash('Comment deleted successfully.', 'success')
                 return jsonify({'message': 'success'}), 200
             except Exception as e:

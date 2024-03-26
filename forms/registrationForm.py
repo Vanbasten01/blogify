@@ -22,4 +22,4 @@ class RegistrationForm(FlaskForm):
     DataRequired(),
     EqualTo('password', message='Passwords must match')
 ])
-    submit = SubmitField('Register')
+    submit = SubmitField('Register To Blogify')

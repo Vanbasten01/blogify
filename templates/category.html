@@ -1,11 +1,14 @@
 
 {% extends 'base2.html' %}
 {% block content %}
-
-<style>
-    
+<style>   
+     
+    .custom-carousel {
+        height: 300px;
+        overflow: hidden;
+    }
     .card {
-        height: 450px;
+        height: 380px;
     }
 
     .card-body {
@@ -18,6 +21,44 @@
         flex-grow: 1;
     }
   
+
+         /* Custom CSS for alert messages */
+         .custom-alert {
+            margin-top: 20px; /* Adjust the top margin as needed */
+            border-radius: 10px; /* Adjust the border radius as needed */
+            padding: 15px; /* Adjust the padding as needed */
+        }
+
+        /* Custom CSS for alert message text */
+        .alert-message {
+            font-size: 16px; /* Adjust the font size as needed */
+            font-weight: bold; /* Optionally adjust the font weight */
+        }
+
+        /* Custom CSS for close button */
+        .btn-close {
+            padding: 0.5rem; /* Adjust the padding as needed */
+            font-size: 1rem; /* Adjust the font size as needed */
+            color: #8A2BE2; /* Optionally adjust the close button color */
+        }
+
+        /* Adjust the layout for screens below 1000px */
+        @media screen and (max-width: 1000px) {
+               
+            .row-cols-1 .col {
+                flex: 0 0 50%; /* Adjust to two columns */
+                max-width: 50%; /* Adjust to two columns */
+            }
+            .card {
+                height: 480px;
+            }
+            .carousel-caption {
+                margin-bottom: 50px !important;
+            }
+        
+    
+        }
+ 
 </style>
 
 <br/>
@@ -39,33 +80,48 @@
 <br/>
 
 <div class="container">
-    {% for blog in blogs %}
-    {% if loop.index % 3 == 1 %}
-    <div class="row row-cols-1 row-cols-md-3 g-3">
+    {% if not searched_blogs %}
+        {% set blogs_to_display = blogs %}
+    {% else %}
+        {% set blogs_to_display = searched_blogs %}
     {% endif %}
+
+    {% for blog in blogs_to_display %}
+        {% if loop.index % 3 == 1 %}
+            <div class="row row-cols-1 row-cols-md-3 g-3">
+        {% endif %}
+        
         <div class="col">
-            <div class="card">
-                <img src="{{ blog['image_url'] }}" class="card-img-top img-fluid" alt="{{ blog['title'] }}" style="width: 100%; height: 35%;">
+            <div class="card" style="margin-bottom: 25px">
+               
+                
                 <div class="card-body">
                     <div class="card-title">
                         <h6 style="font-weight: bold">{{ blog['title'] }}</h6>
                     </div>
+                    {% if blog['image_url'] %}
+                    <img src="{{ blog['image_url'] }}" class="card-img-top img-fluid" alt="{{ blog['title'] }}" style="width: 100%; height: 35%;">
+                    {% endif %}
+                    
                     <div class="card-text">
                         <p>
                             {{ blog['content'][:140] | safe }}
                         </p>
                     </div>
-                    <div style="text-align: center;">
-                        <a href="/blog?blog_id={{ blog['_id'] }}&user_id={{ current_user['_id'] }}" class="btn btn-outline  flex-fill mt-auto" style="background-color: #8A2BE2; color: white; margin-left: 5px; margin-right: 5px; width: 40%">Read More</a>
+                    
+                    <div>
+                        <a href="/blog_?blog_id={{ blog['_id'] }}&user_id={{ current_user['_id'] }}" class="btn btn-outline mt-auto" style="background-color: #8A2BE2; color: white; margin-top: -20px !important">Read More</a>
                     </div>
                 </div>
             </div>
         </div>
-    {% if loop.index % 3 == 0 or loop.last %}
-    </div>
-    {% endif %}
+        
+        {% if loop.index % 3 == 0 or loop.last %}
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
+    <br/>
     <br/>
     <br/>
   

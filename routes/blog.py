@@ -28,7 +28,12 @@ def Blog(current_user):
             current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
             print(f"here we go comment i just added {comment}")
             comment_id = ObjectId()
-            blogs.update_one({'_id': ObjectId(blog_id)}, {'$push': {'comments': {'comment_id': comment_id, 'user_id': ObjectId(user_id), 'likes': [], 'comment': comment, 'time': current_time }}})
+            blogs.update_one({'_id': ObjectId(blog_id)}, {'$push': {'comments': {'comment_id': comment_id, 'user_id': ObjectId(user_id), 'likes': [], 'comment': comment, 'date': current_time }}})
+            from redis0 import redis_client
+            # Cache the result
+            from helpers import CustomJSONEncoder
+            redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
+
             flash('Your comment has been added.', 'success')
         except Exception as e:
             flash(f'An error occurred: {str(e)}', 'danger')

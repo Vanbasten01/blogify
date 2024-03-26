@@ -39,6 +39,30 @@
             font-size: 1rem; /* Adjust the font size as needed */
             color: #8A2BE2; /* Optionally adjust the close button color */
         }
+       
+            /* Adjust the layout for screens below 1000px */
+            @media screen and (max-width: 1000px) {
+               
+                .row-cols-1 .col {
+                    flex: 0 0 50%; /* Adjust to two columns */
+                    max-width: 50%; /* Adjust to two columns */
+                }
+                .card {
+                    height: 480px;
+                }
+                .carousel-caption {
+                    margin-bottom: 90px !important;
+                }
+                .text-start {
+                    margin-bottom: 20px;
+                }
+            }
+            @media (max-width: 360px) {
+                .card-text p {
+                    display: none;
+                }
+            }
+     
 
     </style>
         
@@ -92,8 +116,8 @@
                     <!-- Carousel items -->
                     {% for i in range(3) %}
                     <div class="carousel-item {% if i == 0 %} active {% endif %}">
-                        <img src="{{ blogs[i]['image_url'] }}" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block " style="margin-bottom: 40px;">
+                        <img src="{{ blogs[i]['image_url'] }}" class=" w-100" alt="...">
+                        <div class="carousel-caption" style="margin-bottom: 40px;">
                             <h5>{{ blogs[i]['category_name'] }}</h5>
                             <p>{{ blogs[i]['title'] }}</p>
                         </div>
@@ -130,12 +154,10 @@
   
   <br/>
   <div class="container">
-    {% for blog in blogs %}
-    {% if loop.index % 3 == 1 %}
     <div class="row row-cols-1 row-cols-md-3 g-3">
-    {% endif %}
+        {% for blog in blogs %}
         <div class="col">
-            <div class="card" style="margin-bottom: 20px">
+            <div class="card" style="margin-bottom: 25px">
                 
                 <div class="card-body">
                     <div class="card-title">
@@ -153,10 +175,8 @@
                 </div>
             </div>
         </div>
-    {% if loop.index % 3 == 0 or loop.last %}
+        {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
 </div>
 <br/>
 <br/>

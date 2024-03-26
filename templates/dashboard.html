@@ -40,6 +40,24 @@
             font-size: 1rem; /* Adjust the font size as needed */
             color: #8A2BE2; /* Optionally adjust the close button color */
         }
+
+        /* Adjust the layout for screens below 1000px */
+        @media screen and (max-width: 1000px) {
+               
+            .row-cols-1 .col {
+                flex: 0 0 50%; /* Adjust to two columns */
+                max-width: 50%; /* Adjust to two columns */
+            }
+            .card {
+                height: 480px;
+            }
+            .carousel-caption {
+                margin-bottom: 50px !important;
+            }
+        
+    
+        }
+ 
 </style>
 
 <body>
@@ -83,6 +101,7 @@
                             <li><a class="dropdown-item" href='/category?category=Travel&user_id={{ current_user["_id"] }}'>Travel</a></li>
                             <li><a class="dropdown-item" href='/category?category=Health&user_id={{ current_user["_id"] }}'>Health</a></li>
                             <li><a class="dropdown-item" href='/category?category=Food&user_id={{ current_user["_id"] }}'>Food</a></li>
+                            <li><a class="dropdown-item" href='/category?category=Others&user_id={{ current_user["_id"] }}'>Others</a></li>
                         </ul>
                     </div>
                     <<form class="d-flex" method="POST">
@@ -131,7 +150,7 @@
                             {% if blogs[i]['image_url'] %}
                             <img src="{{ blogs[i]['image_url'] }}" class="d-block w-100" alt="...">
                             {% endif %}
-                            <div class="carousel-caption d-none d-md-block" style="margin-bottom: 40px;">
+                            <div class="carousel-caption" style="margin-bottom: 40px;">
                                 <h5>{{ blogs[i]['category_name'] }}</h5>
                                 <p>{{ blogs[i]['title'] }}</p>
                             </div>
@@ -179,7 +198,7 @@
             {% endif %}
             
             <div class="col">
-                <div class="card" style="margin-bottom: 20px">
+                <div class="card" style="margin-bottom: 25px">
                    
                     
                     <div class="card-body">
@@ -211,6 +230,6 @@
 <br/>
 <br/>
 <br/>
-<br/>
+
 
 {% endblock %}

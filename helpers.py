@@ -32,3 +32,29 @@ class CustomJSONEncoder(json.JSONEncoder):
             return str(obj)
         return json.JSONEncoder.default(self, obj)
 
+
+
+import cloudinary.uploader
+
+
+# Function to remove image from Cloudinary using the public ID
+def remove_image_from_cloudinary(image_url):
+    try:
+        # Extract public ID from the image URL
+        public_id = image_url.split("/")[-1].split('.')[0]  # Assuming the public ID is the second-to-last segment of the URL
+        print(f"Public ID extracted from image URL: {public_id}")  # Add this line
+        # Call destroy method to remove image from Cloudinary
+        result = cloudinary.uploader.destroy(public_id)
+        print(f"here is the result printed {result}")
+        if result['result'] == 'ok':  # Check if the deletion was successful
+            print(f"Image deleted successfully: {image_url}")
+            return True
+          
+        else:
+            print(f"Failed to delete image: {result['message']}")
+            return False
+    except Exception as e:
+        # Handle any errors
+        print(f"Error deleting image from Cloudinary: {e}")
+        return False
+

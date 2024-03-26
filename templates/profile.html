@@ -50,9 +50,9 @@
             margin-top: -130px;
         }
             .image-container {
-            
-                width: 150px; /* Adjust as needed */
-                height: 150px; /* Adjust as needed */
+                border: 4px solid  #892be242;
+                width: 170px; /* Adjust as needed */
+                height: 170px; /* Adjust as needed */
                 overflow: hidden;
                 border-radius: 50%;
                 display: flex;
@@ -65,17 +65,23 @@
                 height: auto;
                 border-radius: 50%;
             }
+            .form-group input{
+                background-color:  #892be242;
+                /* Add other styling properties as needed */
+            }
     }
     /* Media query for small screens */
 @media (max-width: 1000px) {
     .image-container {
         width: 50px; /* Adjust for smaller screens */
         height: 50px; /* Adjust for smaller screens */
+        margin: 30px 30px 30px 50px;
     }
     .image-container {
             
-        width: 150px; /* Adjust as needed */
-        height: 150px; /* Adjust as needed */
+        border: 4px solid  #892be242;
+        width: 170px; /* Adjust as needed */
+        height: 170px; /* Adjust as needed */
         overflow: hidden;
         border-radius: 50%;
         display: flex;
@@ -90,6 +96,10 @@
     .custom-margin-top {
         margin-top: -20px;
         margin-bottom: 140px;
+    }
+    .form-group input{
+        background-color:  #892be242;
+        /* Add other styling properties as needed */
     }
 }
     
@@ -106,12 +116,12 @@
 
 <br/>
 <div class="row">
-    <div class="col-md-12 d-flex justify-content-start align-items-center shared-border" style="border: 1px solid #000;  border-bottom: none;">
+    <div class="col-md-12 d-flex justify-content-start align-items-center shared-border" style="border: 1px solid #892be242;  border-bottom: none; border-radius: 10px 10px 0 0">
         <div class="image-container">
             {% if current_user['profile_image'] %}
             <img src="{{ current_user['profile_image'] }}" alt="Profile Image" class="img-fluid rounded-circle">
         {% else %}
-            <img src="/static/images/profile.jpeg" alt="Profile Image" class="img-fluid rounded-circle">
+            <img src="https://res.cloudinary.com/dedqtmnp2/image/upload/v1711335321/OIP_1_b17xfn.jpg" alt="Profile Image" class="img-fluid rounded-circle">
         {% endif %}
             
         </div>
@@ -121,7 +131,7 @@
     
 <div class="row">   
     <!-- Form Column -->
-    <div class="col-md-12 d-flex justify-content-center align-items-center shared-border  custom-margin-top" style="border: 1px solid #000; border-top: none" >
+    <div class="col-md-12 d-flex justify-content-center align-items-center shared-border  custom-margin-top" style="border: 1px solid #892be242; border-top: none; border-radius: 0 10px 10px; padding-bottom: 25px; " >
         <form method="POST" class="form-container" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 
@@ -191,7 +201,7 @@
             <div>
                 <!-- Submit Button -->
                 <div class="form-group submit-button-container">
-                    <button type="button" class="btn delete-button" onclick="deleteProfile('{{ current_user._id }}')" style="background-color: red; margin-right: 10px;">Delete</button>
+                    <button type="button" class="btn delete-button" onclick="deleteProfile('{{ current_user._id }}')" style="background-color:  rgba(255, 0, 0, 0.39); margin-right: 10px;">Delete</button>
                     {{ form.submit(label="Update", class="btn submit-button", style="background-color: #8A2BE2") }}
                    
                 </div>

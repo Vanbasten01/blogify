@@ -26,7 +26,7 @@
 </div>
     
 {% if blog %}
-<div class="blog-container" style="max-width: 80%; margin: 20px auto; border: 1px solid #ccc; padding: 20px;">
+<div class="blog-container" style="max-width: 100%; margin: 20px auto; border: 1px solid #ccc; padding: 20px;">
     <!-- Blog title as a link -->
     <h2 style="text-align: center; text-decoration: none; color: #333; font-size: 24px; margin-bottom: 10px;">
         <a href="" style="text-decoration: none; color: rgb(32, 13, 13)">{{ blog['title'] }}</a>
@@ -37,8 +37,9 @@
     <!-- Content preview -->
     <p style="font-size: 16px; line-height: 1.5;">{{ blog['content'] | safe}}...</p>
     <p style="font-style: italic; color: #666; margin-bottom: 5px;">Author: {{ blog['author'] }}</p>
+    <p style="font-style: italic; color: #666; margin-bottom: 5px;">Date: {{ blog['date'] }}</p>
 
-    <div>
+    <div class="d-flex justify-content-center">
           {% if current_user %}
           <!-- Like Button for Logged-in User -->
           <a href="javascript:void(0)" class="btn btn-outline flex-fill mt-auto like-btn" onclick="likeblog('{{ blog._id }}', '{{ current_user._id }}')" style="background-color: #8A2BE2; color: white; margin-left: 5px; margin-right: 5px; width: 30%">
