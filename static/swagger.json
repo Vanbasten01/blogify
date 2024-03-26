@@ -153,6 +153,56 @@
           }
         ]
       }
+    },
+    "/api/blogs/{blog_id}": {
+      "get": {
+        "summary": "Get Blog by ID",
+        "description": "Retrieve data of a specific blog by its ID.",
+        "parameters": [
+          {
+            "name": "blog_id",
+            "in": "path",
+            "description": "The ID of the blog to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication token obtained upon successful login.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "your_token_here"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. Token not provided or invalid."
+          },
+          "404": {
+            "description": "Blog not found."
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -204,7 +254,7 @@
                   },
                   "description": "An array of user IDs who liked the comment."
                 },
-                "time": {
+                "date": {
                   "type": "string",
                   "description": "The timestamp when the comment was made."
                 }
@@ -230,5 +280,6 @@
         "description": "Provide the authentication token obtained upon successful login."
       }
     }
+   
   }
 }
