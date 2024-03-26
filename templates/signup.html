@@ -3,33 +3,81 @@
 
 
 <style>
+    /* Form container styling */
     .form-container {
-        /* Add padding to create space around the input fields */
-        padding: 50px;
-    }
-    .error-message {
-        font-weight: 600; /* Adjust font weight as needed */
-        font-size: 12px; /* Adjust font size as needed */
-    }
-    
-    input[type="text"] {
-        /* Adjust the width of the input fields as needed */
         width: 100%;
-        padding: 5px;
-        margin-bottom: 0px; /* Add margin for spacing between input fields */
-    }
-    
-    .submit-button {
-        /* Make the button width the same as the input fields */
-        width: 100%;
-        padding: 5px;
-        background-color: #697480; /* Example background color */
-        color: black; /* Example text color */
-        border: none;
-        cursor: pointer;
+        padding: 20px;
+        margin: 20px; /* Add margin from all sides */
+        background-color: #f9f9f9; /* Light background color */
+        border: 1px solid #ccc; /* Border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow */
     }
 
+    /* Error message styling */
+    .error-message {
+        font-weight: bold;
+        color: #ff0000;
+        margin-top: 5px;
+    }
+
+    /* Input field styling */
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        background-color: #a961ec46; /* Lighter background color for inputs */
+        color: #333; /* Text color */
+    }
+
+    /* Submit button styling */
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #8A2BE2; /* Purple background color */
+        color: #fff; /* Text color */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background-color: #6e1cb7; /* Darker purple on hover */
+    }
+
+     /* Custom styling for the Sign up To Blogify heading */
+     .signup-heading {
+        text-align: center; /* Center the text */
+        font-family: 'Verdana', sans-serif;
+        font-size: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .signup-heading span {
+        font-weight: bold;
+    }
+
+    .signup-heading .color1 {
+        color: #8A2BE2;
+    }
+
+    .signup-heading .color2 {
+        color: #1a1111;
+    }
+    /* Adjust the layout for screens below 1000px */
+    @media screen and (max-width: 1000px) {
+        .signup-img {
+            display: none !important;
+        }
+    }
 </style>
+
 
     {% for category, message in get_flashed_messages(with_categories=true) %}
     <div class="alert alert-{{ category }}">
@@ -40,11 +88,15 @@
 
 <br/>
 <div class="row">
-    <div class="col-md-6 d-flex justify-content-center align-items-center shared-border">
-        <img src="/static/images/3-purple-sign-up.jpg" alt="Description of your image" class="img-fluid">
+    <h4 class="signup-heading">
+        <span style="color: #8A2BE2; font-weight: bold;">S</span><span class="black-text" style="color: rgb(26, 17, 17); font-weight: bold;">ign up To</span> 
+        <span class="black-text" style="color: rgb(26, 17, 17); font-weight: bold;">B</span><span style="color: #8A2BE2; font-weight: bold;">logify</span>
+    </h4>
+    <div class="col-md-6 d-flex justify-content-center align-items-center shared-border signup-img">
+        <img src="https://res.cloudinary.com/dedqtmnp2/image/upload/v1711335071/3-purple-sign-up_fkjwxj.jpg" alt="Description of your image" class="img-fluid">
     </div>
-
-    <div class="col-md-6 d-flex justify-content-center align-items-center shared-border" style="margin-bottom: 6px">
+    <div class="col-md-1"></div>   
+         <div class="col-md-5 d-flex justify-content-center align-items-center shared-border" style="margin-bottom: 6px">
         <form  method="POST" class="form-container">
             {{ form.hidden_tag() }}
 
@@ -90,8 +142,6 @@
         </form>
     </div>
 </div>
-<br/>
-<br/>
 <br/>
 <br/>
 
