@@ -32,5 +32,5 @@ def cache_redis(key):
 @cache_redis('all_blogs')
 def index():
     from mongo0 import blogs
-    all_blogs = list(blogs.find())
+    all_blogs = list(blogs.find().sort('_id', 1))
     return all_blogs
