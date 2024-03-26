@@ -2,7 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Blogify API",
-    "description": "API documentation for the Blogify application",
+    "description": "API documentation for the Blogify application's data access interface, tailored for seamless integration with external applications. These endpoints enable **read-only** access to blog content within the Blogify ecosystem. Designed with security and performance in mind, developers can securely retrieve data using these endpoints for integration into their applications. This documentation provides comprehensive guidance for developers seeking to leverage Blogify's backend services for data consumption purposes."
+    ,
     "version": "1.0.0"
   },
   "paths": {
