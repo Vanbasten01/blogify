@@ -8,6 +8,6 @@ from bson.objectid import ObjectId
 def myblogs(current_user):
     from mongo0 import blogs
     user_id = request.args.get('user_id')
-    blogs = blogs.find({'user_id': ObjectId(user_id)})
+    blogs = blogs.find({'user_id': ObjectId(user_id)}).sort('_id', -1)
     blogs = list(blogs)
     return render_template('blogs.html', blogs=blogs, current_user=current_user)
