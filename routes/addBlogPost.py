@@ -67,7 +67,7 @@ def addPost(current_user):
 
       
 
-       all_blogs = list(blogs.find())
+       all_blogs = list(blogs.find().sort('_id', -1))
        from helpers import CustomJSONEncoder
        redis_client.set('all_blogs', json.dumps(all_blogs, cls=CustomJSONEncoder))    
        

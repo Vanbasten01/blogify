@@ -21,7 +21,7 @@ def delete_blog(current_user):
     blogs.delete_one({'_id': ObjectId(blog_id)})
     from redis0 import redis_client
     from helpers import CustomJSONEncoder
-    redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
+    redis_client.set('all_blogs', json.dumps(list(blogs.find().sort('_id', -1)), cls=CustomJSONEncoder))
 
     if image_url:
         from helpers import remove_image_from_cloudinary

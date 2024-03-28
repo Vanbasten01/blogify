@@ -35,16 +35,3 @@ def login():
         else:
             # Return error response if authentication fails
             return jsonify({'error': 'Invalid credentials'}), 401
-
-"""
-@bp.route('/logout')
-def logout():
-    user_id = request.args.get('user_id')
-    from mongo0 import db
-    
-    user = db.users.find_one({"_id": ObjectId(user_id)})
-    session.pop(user['email'])
-    flash('You have logged out successfully!', 'success')
-    return redirect(url_for('all_routes.index'))
-    
-"""

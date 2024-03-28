@@ -56,7 +56,7 @@ def Blog(current_user):
             'user_id': '$comments.user_id',
             'comment_id': '$comments.comment_id',
             'likes': '$comments.likes',
-            'time': '$comments.time'
+            'time': '$comments.date'
         }}
     ])
 

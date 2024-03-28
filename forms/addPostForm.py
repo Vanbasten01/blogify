@@ -8,5 +8,4 @@ class AddPost(FlaskForm):
     image = FileField('image')
     category = SelectField('Categories', choices=[('Technology', 'Technology'), ('Science', 'Science'), ('Travel', 'Travel'), ('Health', 'Health'), ('Food', 'Food'), ('Others', 'Others')], validators=[DataRequired()])
     content = CKEditorField('Content', validators=[DataRequired()])
-    #content = TexAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Publish')

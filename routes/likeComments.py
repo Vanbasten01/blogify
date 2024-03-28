@@ -2,7 +2,7 @@ from routes import bp
 from routes.dashboard import token_required
 from flask import request, flash, redirect, jsonify
 from bson.objectid import ObjectId
-from mongo0 import blogs  # Import your blogs collection here
+from mongo0 import blogs
 
 @bp.route('/like_comment', methods=['POST'])
 @token_required

@@ -2,6 +2,7 @@ from routes import bp
 from routes.dashboard import token_required
 from flask import render_template, request, flash, redirect, jsonify
 from bson.objectid import ObjectId
+import json
 
 @bp.route('/delete_comment', methods=['POST'])
 @token_required
@@ -18,7 +19,7 @@ def deleteComment(current_user):
                 from redis0 import redis_client
                 # Cache the result
                 from helpers import CustomJSONEncoder
-                redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
+                redis_client.set('all_blogs', json.dumps(list(blogs.find().sort('_id', -1)), cls=CustomJSONEncoder))
                 flash('Comment deleted successfully.', 'success')
                 return jsonify({'message': 'success'}), 200
             except Exception as e:

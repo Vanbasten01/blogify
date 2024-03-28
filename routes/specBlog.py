@@ -8,14 +8,11 @@ import json
 
 
 @bp.route('/blog', strict_slashes=False)
-#@token_required
-#def blog(current_user):
 def blog():
     form = CommentForm()
     blog_id = request.args.get("blog_id")
     blog = None
     from mongo0 import db
-    #blog_id = ObjectId(blog_id)
     from redis0 import redis_client
     all_blogs_json = redis_client.get('all_blogs')
     if all_blogs_json:
@@ -23,7 +20,6 @@ def blog():
         for blog in all_blogs:
             if blog['_id'] == blog_id:
                  blog = blog
-                 print(f"this is fromm rediiiiiiiiiiiiiiiiis")
             else:
                  blog = db.blogs.find_one({'_id': ObjectId(blog_id)})
 

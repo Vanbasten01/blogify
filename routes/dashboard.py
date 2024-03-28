@@ -11,15 +11,12 @@ import json
 
 @bp.before_request
 def add_authorization_header():
-    print(f" this is from befor request    {request.args.get('user_id')}")
-    #if request.blueprint == 'all_routes':
     if request.args.get('user_id'):
         user_id = request.args.get('user_id')
         from mongo0 import db
         user = db.users.find_one({"_id": ObjectId(user_id)})
         if not user:
             return redirect(url_for('all_routes.login'))
-        print(f"this is from before request jkjkjjjjjjjjjjjjjjj{user}")
         token = session.get(user['email'])
       
         # Create a copy of the headers and modify the copy

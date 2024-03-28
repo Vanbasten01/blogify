@@ -8,7 +8,7 @@ MIN_PASSWORD_LENGTH = 8
 # Regular expression pattern for email validation
 EMAIL_REGEX = r'^[\w\.-]+@[\w\.-]+\.\w+$'
 
-# Define your Flask API route
+
 @bp_api.route('/api/signup', methods=['POST'])
 def api_signup():
     if request.method == 'POST':

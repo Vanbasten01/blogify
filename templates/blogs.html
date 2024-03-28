@@ -3,22 +3,40 @@
 {% block content %}
 
 <style>
-    
     .card {
         height: 400px;
     }
-
+    
     .card-body {
         display: flex;
         flex-direction: column;
         height: 100%;
     }
-
+    
     .card-text {
         flex-grow: 1;
     }
-  
+    /* Custom CSS for alert message text */
+    .alert-message {
+        font-size: 16px; 
+        font-weight: bold; 
+    }
+
+
 </style>
+<br/>
+<div class="container">
+    <div class="row justify-content-center" style="margin-top: -7px;">
+        <div class="col-md-4"> <!-- Adjust the width as needed -->
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show custom-alert" role="alert">
+                <span class="alert-message">{{ message }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 <br/>
 <div class="container-fluid">
@@ -74,17 +92,6 @@
 </div>
     <br/>
     <br/>
-  
-
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}

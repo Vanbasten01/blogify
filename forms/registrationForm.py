@@ -17,7 +17,6 @@ class RegistrationForm(FlaskForm):
         Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
                message='Password must contain uppercase, lowercase, number, and special character.')
     ])
-    #confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
     confirm_password = PasswordField('', validators=[
     DataRequired(),
     EqualTo('password', message='Passwords must match')

@@ -56,7 +56,7 @@ def edit_Blog(current_user):
         if result.modified_count == 1:
             from redis0 import redis_client
             from helpers import CustomJSONEncoder
-            redis_client.set('all_blogs', json.dumps(list(blogs.find()), cls=CustomJSONEncoder))
+            redis_client.set('all_blogs', json.dumps(list(blogs.find().sort('_id', -1)), cls=CustomJSONEncoder))
             flash('Blog updated successfully', 'success')
         else:
             flash('Failed to update blog', 'error')

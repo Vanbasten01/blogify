@@ -2,6 +2,7 @@ from routes import bp
 from routes.dashboard import token_required
 from flask import request, flash, jsonify, redirect
 from bson.objectid import ObjectId
+import json
 
 @bp.route('/blogLikes', methods=['POST'])
 @token_required
@@ -30,7 +31,9 @@ def bloglikes(current_user):
             else:
                 blogs.update_one({'_id': ObjectId(blog_id)}, {'$push': {'likes': {'user_id': ObjectId(user_id)}}})
                 #flash('Comment liked successfully.', 'success')
-            
+            from redis0 import redis_client
+            from helpers import CustomJSONEncoder
+            redis_client.set('all_blogs', json.dumps(list(blogs.find().sort('_id', -1)), cls=CustomJSONEncoder))   
             return jsonify({'liked': liked}), 200
 
         except ValueError as ve:

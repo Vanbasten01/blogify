@@ -11,9 +11,6 @@ def signup():
 
 
     if request.method == 'POST' and form.validate_on_submit():
-        # Process form data
-        #from app import users
-       
         email = form.email.data
         first_name = form.first_name.data
         last_name = form.last_name.data
@@ -30,7 +27,6 @@ def signup():
         users.insert_one(user_data)
         flash('Account created successfully', 'success')
         
-        # Redirect to a success page or do something with the data
         return redirect(url_for('all_routes.index'))
     return render_template('signup.html', form=form)
 
