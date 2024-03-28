@@ -15,6 +15,10 @@ Blogify is a Flask-based web application for creating and managing a personal bl
 - **API Endpoints for Application-to-Application Interaction:** Other applications can interact with Blogify's API endpoints to retrieve all blogs or a specific blog using JWT token-based authentication.
 
 
+[Watch the YouTube video](https://www.youtube.com/watch?v=Ww0E2KIijeM)
+
+
+
 ## Installation
 
 
@@ -45,7 +49,7 @@ venv\Scripts\activate      # On Windows
 pip install -r requirements.txt
 ```
 
-4. Set up the environment variables:
+### 4. Set up the environment variables:
 Create a .env file in the root directory of your project and add the following variables:
 
 
