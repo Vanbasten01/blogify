@@ -62,3 +62,16 @@ python app.py
 
 5. Access the application in your web browser at http://localhost:5000.
 
+## Technologies Used
+
+- Flask: Python web framework used for building the backend of the application.
+- MongoDB: NoSQL database used for storing blog data.
+- Cloudinary: Cloud-based service used for managing and serving images.
+- HTML: Markup language used for creating the structure of web pages.
+- CSS: Styling language used for enhancing the presentation of web pages.
+- JavaScript: Programming language used for adding interactivity and dynamic behavior to web pages.
+
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fouad-yasin-76a489270/)
+
+
